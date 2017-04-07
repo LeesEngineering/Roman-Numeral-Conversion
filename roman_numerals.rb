@@ -7,8 +7,6 @@ VALUES = [
   ["V", 5],
   ["I", 1],
 ]
-
-puts VALUES
 =begin
 def romanize n
   roman = ""
