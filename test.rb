@@ -16,16 +16,15 @@ Roman_Numerals = {
 
 #Reverses the Roman Numerals and Arabic Numbers around in the Hash
 #To look like 1000 => 1090"M" instead.
-
 Arabic_Numberals = Roman_Numerals.invert
-
 #Input Roman Numeral or a Number
-puts "-------------------------------------"
+puts ""
 print "Input a roman numeral number or a regular number for conversion: "
 input = gets.chomp.upcase
+puts "-------------------------------------------------------"
 puts "Inputed value is #{input}."
-puts "-------------------------------------"
 
+puts "-------------------------------------------------------"
 
 #This method checks whether an input was a string or an integer
 public
@@ -38,26 +37,32 @@ true_false = input.numeric?
 #convert a roman numeral or a number.
 
 case true_false
+#Converts Roman to Integer
+#Modified code from pleac.sourceforge.net/pleac_ruby_numbers.html
 when false
-#Converts a Roman Numeral to a Number
-  Roman_Numerals.each do |roman, value|
-    if roman == input
-      puts "Answer: The Roman Numeral '#{input}' => #{value}."
-      break
-    else
-      next
+  def from_roman(input)
+    str = input
+    sum = 0
+    for entry in Roman_Numerals
+      sym = entry[0]
+      num = entry[1]
+      while sym == str[0, sym.length]
+        sum += num
+        str.slice!(0, sym.length)
+      end
     end
+    sum
   end
-
-#Converts Numbers to a Roman Numeral
+  x = from_roman(input)
+  puts "Roman Numeral entered converts to => #{x}"
+#Converts Integer to Roman
+#Modified code from https://www.ruby-forum.com/topic/198968
 when true
-
-  def roman_numeral(number)
+  def from_integer(number)
     Arabic_Numberals.to_a.inject(["", number]) { |(result, number),
       (order, roman)| [ result + roman * (number / order),
       number % order ]}.first
   end
-
-Roman = roman_numeral(input.to_i)
+Roman = from_integer(input.to_i)
 puts "Answer: Number '#{input}' converts to => '#{Roman}' in Roman Numerals"
 end
